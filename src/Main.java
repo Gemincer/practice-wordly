@@ -2,6 +2,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+    final static String COLOR_RESET = "\033[0m";
+    final static String COLOR_GREEN = "\033[0;32m";
+    final static String COLOR_RED = "\033[0;31m";
     public static void main(String[] args) {
         String[] words = {
                 "About", "Above", "Alert", "Breed",
@@ -18,54 +21,58 @@ public class Main {
 
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
-        final String COLOR_RESET = "\033[0m";
-        final String COLOR_GREEN = "\033[0;32m";
-        final String COLOR_RED = "\033[0;31m";
         String secretWord = pickWord(words, random);
-        char[] secretWordLetters = secretWord.toCharArray();
         int attempts = 6;
-        String template;
         String guess;
-        System.out.println("***"+secretWord+"***\n");
+        System.out.println("***" + secretWord + "***\n");
 
         while (attempts > 0) {
             System.out.println("Enter your guess: ");
             guess = scanner.nextLine().trim().toLowerCase();
-            template = "";
 
             if (guess.length() != 5) {
                 System.out.println("Your word must have 5 letters!");
                 continue;
             }
 
-            char[] guessLetters = guess.toCharArray();
+            String answer = checkWord(secretWord, guess);
 
-            if (!guess.equalsIgnoreCase(secretWord)) {
-                for(int i = 0; i < guess.length(); i++) {
-                    if (guessLetters[i] == secretWordLetters[i]) {
-                        template += COLOR_GREEN + guessLetters[i] + COLOR_RESET;
-                    }
-                    else if (guessLetters[i] != secretWordLetters[i] && secretWord.contains(""+guessLetters[i])) {
-                        template += COLOR_RED + guessLetters[i] + COLOR_RESET;
-                    }
-                    else {
-                        template += "_";
-                    }
-                }
-                System.out.println(template);
+            if (!answer.equals("MATCH")) {
+                System.out.println(answer);
             }
             else {
-                System.out.println("Congrats!\nYou made it!!!");
-                break;
+                System.out.println("Congrats! You made it!!!");
+                return;
             }
+
             attempts--;
         }
 
-        if (attempts == 0) System.out.println("Unfortunately you've lost :(");
+        System.out.println("Unfortunately you've lost :(");
     }
 
     public static String pickWord(String[] words, Random random) {
         return words[random.nextInt(words.length)].toLowerCase();
     }
 
+    public static String checkWord(String secretWord, String guess) {
+        char[] guessLetters = guess.toCharArray();
+        char[] secretWordLetters = secretWord.toCharArray();
+        String template = "";
+
+        if (!guess.equalsIgnoreCase(secretWord)) {
+            for (int i = 0; i < guess.length(); i++) {
+                if (guessLetters[i] == secretWordLetters[i]) {
+                    template += COLOR_GREEN + guessLetters[i] + COLOR_RESET;
+                } else if (guessLetters[i] != secretWordLetters[i] && secretWord.contains("" + guessLetters[i])) {
+                    template += COLOR_RED + guessLetters[i] + COLOR_RESET;
+                } else {
+                    template += "_";
+                }
+            }
+
+            return  template;
+        }
+        return "MATCH";
+    }
 }
