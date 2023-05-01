@@ -18,6 +18,9 @@ public class Main {
 
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
+        final String COLOR_RESET = "\033[0m";
+        final String COLOR_GREEN = "\033[0;32m";
+        final String COLOR_RED = "\033[0;31m";
         String secretWord = pickWord(words, random);
         char[] secretWordLetters = secretWord.toCharArray();
         int attempts = 6;
@@ -40,10 +43,10 @@ public class Main {
             if (!guess.equalsIgnoreCase(secretWord)) {
                 for(int i = 0; i < guess.length(); i++) {
                     if (guessLetters[i] == secretWordLetters[i]) {
-                        template += "\033[0;32m" + guessLetters[i] +"\033[0m";
+                        template += COLOR_GREEN + guessLetters[i] + COLOR_RESET;
                     }
                     else if (guessLetters[i] != secretWordLetters[i] && secretWord.contains(""+guessLetters[i])) {
-                        template += "\033[0;31m" + guessLetters[i] +"\033[0m";
+                        template += COLOR_RED + guessLetters[i] + COLOR_RESET;
                     }
                     else {
                         template += "_";
@@ -58,7 +61,7 @@ public class Main {
             attempts--;
         }
 
-        if (attempts == 0) System.out.println("Unfortunately you're lose :(");
+        if (attempts == 0) System.out.println("Unfortunately you've lost :(");
     }
 
     public static String pickWord(String[] words, Random random) {
