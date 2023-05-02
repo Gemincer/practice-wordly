@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,16 +8,20 @@ public class Main {
     final static String COLOR_RED = "\033[0;31m";
     public static void main(String[] args) {
         String[] words = {
-                "About", "Above", "Alert", "Breed",
-                "Bread", "Booth", "Chain", "Chair",
-                "Child", "Error", "Event", "Exact",
-                "False", "Faith", "Flash", "Floor",
-                "Metal", "Media", "Local", "Logic",
-                "Mount", "Mouth", "Power", "Radio",
-                "Prize", "Prove", "Right", "Queen",
-                "Sharp", "Split", "Table", "Think",
-                "Tight", "Throw", "Watch", "Wheel",
-                "World", "Would", "Video", "Visit"
+                "about", "abort", "above", "alert",
+                "breed", "bribe", "bride", "bread",
+                "booth", "build", "chain", "chair",
+                "child", "clown", "cloud", "error",
+                "event", "exact", "false", "faith",
+                "flash", "floor", "fluid", "metal",
+                "media", "medal", "local", "logic",
+                "level", "mount", "mouth", "power",
+                "pride", "radio", "prize", "prove",
+                "right", "queen", "sharp", "split",
+                "slice", "table", "think", "tight",
+                "thing", "throw", "watch", "wheel",
+                "world", "would", "write", "video",
+                "visit", "hello"
         };
 
         Random random = new Random();
@@ -30,8 +35,13 @@ public class Main {
             System.out.println("Enter your guess: ");
             guess = scanner.nextLine().trim().toLowerCase();
 
-            if (guess.length() != 5) {
+            if (!guess.matches("[a-z]{5}")) {
                 System.out.println("Your word must have 5 letters!");
+                continue;
+            }
+
+            if (!Arrays.asList(words).contains(guess)) {
+                System.out.println("Your word have to be a valid word!");
                 continue;
             }
 
