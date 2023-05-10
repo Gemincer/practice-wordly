@@ -29,7 +29,6 @@ public class Main {
         String secretWord = pickWord(words, random);
         int attempts = 6;
         String guess;
-        System.out.println("***" + secretWord + "***\n");
 
         while (attempts > 0) {
             System.out.println("Enter your guess: ");
